@@ -46,7 +46,7 @@ func extractArgs(args []string) (*programArgs, int) {
 		return nil, 2
 	}
 	url := flagSet.Arg(0)
-	if *sleepPtr < 0 {
+	if *sleepPtr < 1 {
 		fmt.Fprintf(os.Stderr, "sleep flag error: sleep should be larger than 0, but was %d\n", *sleepPtr)
 		return nil, 3
 	}
