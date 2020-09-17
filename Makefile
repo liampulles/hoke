@@ -18,5 +18,5 @@ update:
 pre-commit: update clean coverage.txt inspect
 	go mod tidy
 clean:
-	rm -f hoke
+	rm -f ${GOPATH}/bin/hoke
 	rm -f coverage.txt

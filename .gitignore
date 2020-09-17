@@ -19,7 +19,6 @@ coverage.txt
 
 # Releases
 dist/
-hoke
 
 # IDE files
 .vscode/

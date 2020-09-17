@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"os"
+
+	"github.com/liampulles/hoke/pkg/app"
 )
 
 func main() {
-	fmt.Println("I got my teeth back.")
-	os.Exit(0)
+	os.Exit(app.Run(os.Args))
 }
