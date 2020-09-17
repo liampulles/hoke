@@ -23,6 +23,14 @@ func TestRun_WhenGivenInvalidArgs_ShouldFail(t *testing.T) {
 	assert.Equal(t, 1, actual)
 }
 
+func TestRun_WhenGivenInvalidFlags_ShouldFail(t *testing.T) {
+	// Exercise SUT
+	actual := app.Run([]string{"hoke", "-sleep", "-1", "https://github.com"})
+
+	// Verify results
+	assert.Equal(t, 3, actual)
+}
+
 func TestRun_WhenMissingUrl_ShouldFail(t *testing.T) {
 	// Exercise SUT
 	actual := app.Run([]string{"hoke"})

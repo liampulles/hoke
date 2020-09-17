@@ -4,6 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"time"
+
+	"github.com/liampulles/hoke/pkg/http"
 )
 
 type programArgs struct {
@@ -19,8 +22,16 @@ func Run(args []string) int {
 		return res
 	}
 
-	fmt.Printf("Checking %s every %d seconds\n", progArgs.URL, progArgs.Sleep)
+	fmt.Fprintf(os.Stderr, "Checking %s every %d seconds\n", progArgs.URL, progArgs.Sleep)
+	pollUntilHealthy(progArgs)
 	return 0
+}
+
+func pollUntilHealthy(progArgs *programArgs) {
+	for !http.GetReturns2xx(progArgs.URL) {
+		fmt.Fprintf(os.Stderr, "Failed to call %s, waiting %d seconds...\n", progArgs.URL, progArgs.Sleep)
+		time.Sleep(time.Duration(progArgs.Sleep) * time.Second)
+	}
 }
 
 func extractArgs(args []string) (*programArgs, int) {
@@ -35,6 +46,10 @@ func extractArgs(args []string) (*programArgs, int) {
 		return nil, 2
 	}
 	url := flagSet.Arg(0)
+	if *sleepPtr < 0 {
+		fmt.Fprintf(os.Stderr, "sleep flag error: sleep should be larger than 0, but was %d\n", *sleepPtr)
+		return nil, 3
+	}
 
 	return &programArgs{
 		Sleep: *sleepPtr,
